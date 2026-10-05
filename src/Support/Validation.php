@@ -48,7 +48,7 @@ final class Validation
 
         $result = [];
         foreach ($values as $value) {
-            if (!is_string($value) || trim($value) === '') {
+            if (!is_string($value) || $value === '' || trim($value) === '') {
                 throw new $exception("{$field} must contain non-blank strings.");
             }
 

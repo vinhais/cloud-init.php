@@ -29,8 +29,19 @@ trait RendersYaml
      */
     public function renderString(): string
     {
-        $options = $this->toArray();
+        return $this->yamlHeader().$this->renderOptions($this->toArray());
+    }
 
+    /**
+     * Serialize a document mapping independently of each builder's array shape.
+     *
+     * @param  array<string, mixed>  $options  Validated YAML options.
+     * @return string
+     *
+     * @throws \CloudInit\Exceptions\YamlRenderException
+     */
+    private function renderOptions(array $options): string
+    {
         try {
             $yaml = $options === [] ? "{}\n" : '';
 
@@ -42,7 +53,7 @@ trait RendersYaml
             throw new YamlRenderException('Unable to render the YAML document.', previous: $exception);
         }
 
-        return $this->yamlHeader().$yaml;
+        return $yaml;
     }
 
     /**

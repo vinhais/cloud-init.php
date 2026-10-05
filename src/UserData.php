@@ -52,6 +52,15 @@ class UserData implements Stringable
     private array $options = [];
 
     /**
+     * Create a builder with no configured options.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+    }
+
+    /**
      * Create an empty builder; unset options are omitted from output.
      *
      * @return static
@@ -506,14 +515,18 @@ class UserData implements Stringable
             throw new CommandInvalidException('Command must be a non-empty argument list.');
         }
 
+        $arguments = [];
+
         foreach ($command as $argument) {
             if (!is_string($argument)) {
                 throw new CommandInvalidException('Command arguments must be strings.');
             }
+
+            $arguments[] = $argument;
         }
 
-        Validation::notBlank($command[0], 'Command executable', CommandInvalidException::class);
+        Validation::notBlank($arguments[0], 'Command executable', CommandInvalidException::class);
 
-        return $command;
+        return $arguments;
     }
 }
