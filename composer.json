@@ -1,0 +1,46 @@
+{
+    "name": "vinhais/cloud-init.php",
+    "description": "Generate your cloud-init files dynamically with PHP. 🐘",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "cloud-init",
+        "cloud-config",
+        "builder",
+        "deployment"
+    ],
+    "require": {
+        "php": "^8.5",
+        "symfony/yaml": "^7.4 || ^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.5",
+        "phpstan/phpstan": "^2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "CloudInit\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CloudInit\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan analyse",
+        "check": [
+            "@test",
+            "@analyse"
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "homepage": "https://github.com/vinhais/cloud-init.php",
+    "support": {
+        "issues": "https://github.com/vinhais/cloud-init.php/issues",
+        "source": "https://github.com/vinhais/cloud-init.php"
+    }
+}

@@ -1,0 +1,30 @@
+name: Tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dependencies: [lowest, highest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          tools: composer:v2
+          coverage: none
+      - run: composer validate --strict
+      - if: matrix.dependencies == 'lowest'
+        run: composer update --prefer-lowest --prefer-stable --no-interaction --prefer-dist
+      - if: matrix.dependencies == 'highest'
+        run: composer update --no-interaction --prefer-dist
+      - run: composer check
+      - run: php examples/web-server.php > /tmp/cloud-config.yaml
+      - run: mkdir -p /tmp/nocloud-seed
+      - run: php examples/nocloud.php /tmp/nocloud-seed
+      - run: php examples/lxd.php > /tmp/lxd-config.yaml
+      - run: php examples/maas.php --base64 > /tmp/maas-user-data.base64
+      - run: mkdir -p /tmp/wsl-seed
+      - run: php examples/wsl.php /tmp/wsl-seed Ubuntu-24.04
